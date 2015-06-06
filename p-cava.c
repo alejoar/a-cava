@@ -43,7 +43,6 @@ struct termios oldtio, newtio;
 int rc;
 
 pid_t pacatPid;
-pid_t truncatorPid;
 char *path = "/tmp/mpd.fifo";
 char buf[1024];
 
@@ -61,7 +60,6 @@ void cleanup()
 {
   echo();
   kill(pacatPid, SIGKILL);
-  kill(truncatorPid, SIGKILL);
   system("killall pacat");
   snprintf(buf, sizeof buf, "rm %s", path);
   system(buf);
@@ -305,19 +303,6 @@ int main(int argc, char **argv)
     }
   }
 
-  truncatorPid = fork();
-  if(truncatorPid==0){
-    // while(1){
-    //   kill(pacatPid, SIGKILL);
-    //   system("killall pacat");
-    //   snprintf(buf, sizeof buf, "rm %s", path);
-    //   system(buf);
-    //   snprintf(buf, sizeof buf, "pacat -r --device=alsa_output.pci-0000_00_1b.0.analog-stereo.monitor > %s", path);
-    //   system(buf);
-    //   system("sleep 10");
-    // }
-    exit(0);
-  }
   // input: wait for the input to be ready
   thr_id = pthread_create(&p_thread, NULL, input_fifo,
   (void*)path); //starting fifomusic listener
