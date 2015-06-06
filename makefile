@@ -1,4 +1,4 @@
-PACKAGE ?= cava
+PACKAGE ?= a-ava
 VERSION ?= $(shell git describe --always --tags --dirty)
 
 CC       = gcc
@@ -19,17 +19,17 @@ ifeq ($(debug),1)
 CPPFLAGS += -DDEBUG
 endif
 
-all: cava
+all: a-cava
 
-cava: cava.c
+a-cava: a-cava.c
 
 install: all
-	$(INSTALL_BIN) cava $(BINDIR)/cava
+	$(INSTALL_BIN) a-cava $(BINDIR)/a-cava
 
 uninstall:
-	$(RM) $(BINDIR)/cava
+	$(RM) $(BINDIR)/a-cava
 
 clean:
-	$(RM) cava
+	$(RM) a-cava
 
 .PHONY: all clean install uninstall
