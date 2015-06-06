@@ -60,7 +60,7 @@ void cleanup()
 {
   echo();
   kill(pacatPid, SIGKILL);
-  system("killall pacat");
+  //system("killall pacat");
   snprintf(buf, sizeof buf, "rm %s", path);
   system(buf);
   system("setfont /usr/share/consolefonts/Lat2-Fixed16.psf.gz  >/dev/null 2>&1");
@@ -103,6 +103,10 @@ void* input_fifo(void* data)
   fcntl(fd, F_SETFL, flags | O_NONBLOCK);
 
   while (1) {
+
+    while( access( path, F_OK ) == -1 ) {
+      nanosleep (&req, NULL);
+    }
 
     bytes = read(fd, buf, sizeof(buf));
 
